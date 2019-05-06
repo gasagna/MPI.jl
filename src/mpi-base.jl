@@ -1839,6 +1839,24 @@ function Intercomm_merge(intercomm::Comm, flag::Bool)
     return Comm(comm_id[])
 end
 
+function Type_Create_Resized(oldtype::MPIDatatype,
+                             lb::Integer,
+                             extent::Integer)
+
+    newtype_ref = Ref{Cint}()
+    flag = Ref{Cint}()
+
+    ccall(MPI_TYPE_CREATE_RESIZED, Nothing, 
+        (Ref{Cint}, Ref{Cptrdiff_t}, Ref{Cptrdiff_t}, Ptr{Cint}, Ptr{Cint}),
+        oldtype, lb, extent, newtype_ref, flag)
+
+    if flag[] != 0
+        throw(ErrorException("MPI_Type_create_resized returned non-zero exit status"))
+    end
+
+    return newtype_ref[]
+end
+
 function Type_Create_Struct(nfields::Integer, blocklengths::MPIBuffertype{Cint},
                             displacements::MPIBuffertype{Cptrdiff_t},
                             types::MPIBuffertype{Cint})
