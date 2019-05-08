@@ -95,6 +95,7 @@ MPI_functions = [
     "MPI_ALLREDUCE",
     "MPI_ALLTOALL",
     "MPI_ALLTOALLV",
+    "MPI_ALLTOALLW",
     "MPI_BARRIER",
     "MPI_BCAST",
     "MPI_BSEND",
